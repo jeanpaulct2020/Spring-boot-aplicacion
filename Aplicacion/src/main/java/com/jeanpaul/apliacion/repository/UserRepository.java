@@ -1,5 +1,6 @@
 package com.jeanpaul.apliacion.repository;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.repository.CrudRepository;
@@ -10,5 +11,9 @@ import com.jeanpaul.apliacion.entity.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long>{
 
-	Set<User> findByUsername(String username);
+	//encontrar un usuario
+	Optional<User> findByUsername(String username);
+	
+	
+	
 }

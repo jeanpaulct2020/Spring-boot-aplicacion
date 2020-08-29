@@ -1,5 +1,7 @@
 package com.jeanpaul.apliacion.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,4 +20,27 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findAll();
 	}
 
+	private boolean chekUserNameDisponible(User user) throws Exception {
+		Optional<User> userFound= userRepository.findByUsername(user.getUsername());
+		if(userFound.isPresent()) {
+			throw new Exception("Username no disponible"); 
+		}
+		return true ;
+	}
+	
+	private boolean chekPasswordValido(User user) throws Exception {
+		if(!user.getPassword().equals(user.getConfirmPassword())) {
+			throw new Exception("Password and confirm password no son iguales");
+		}
+		return true;
+	}
+
+	@Override
+	public User createUser(User user) throws Exception {
+		if(chekUserNameDisponible(user) && chekPasswordValido(user)) {
+			user = userRepository.save(user);
+		}
+		return user;
+	}
+	
 }

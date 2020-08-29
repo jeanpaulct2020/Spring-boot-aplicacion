@@ -14,8 +14,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
+
 
 @Entity
 @Table(name = "users")
@@ -32,17 +35,28 @@ public class User implements Serializable{
 	private Long id;
 	
 	@Column 
+	@NotBlank
+	@Size(min = 5, max = 8, message = "No se cumple las reglas de tamano")
 	private String firstName;
+	
 	@Column 
+	@NotBlank
 	private String lastName;
+	
 	@Column(unique = true) 
+	@NotBlank
 	private String email;
-	@Column(unique = true) 
+	
+	@Column(unique = true)
+	@NotBlank
 	private String username;
+	
 	@Column
+	@NotBlank
 	private String password;
 	
 	@Transient 
+	@NotBlank
 	private String confirmPassword;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
