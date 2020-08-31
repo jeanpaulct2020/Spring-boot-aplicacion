@@ -1,5 +1,8 @@
-<form th:action="@{/userForm}" th:object="${userForm}" method="post" class="form" role="form" autocomplete="off">
-	<input type="hidden" th:field="${userForm.id}" / >
+<form th:action="${editMode} ? @{/editUser} : @{/userForm}" th:object="${userForm}" method="post" class="form" role="form" autocomplete="off">
+	<!--Es necesario para poder pasar la validacion del Model-->
+	<input class="form-control" type=hidden th:field="${userForm.id}"  th:if="${editMode}">
+	<input class="form-control" type=hidden name="password" value="xxxx"  th:if="${editMode}">
+	
 	<div class="form-group row">
 		<label class="col-lg-3 col-form-label form-control-label">Firstname</label>
 		<div class="col-lg-9">
@@ -39,7 +42,7 @@
 			</select>
 		</div>
 	</div>
-	<div class="form-group row">
+	<div class="form-group row" th:if="${editMode==null or editMode==false}">
 		<label class="col-lg-3 col-form-label form-control-label">Password</label>
 		<div class="col-lg-9" >
 			<input class="form-control" type="password" th:field="${userForm.password}">
@@ -47,17 +50,17 @@
 		</div>
 	</div>
 	
-	<div class="form-group row">
+	<div class="form-group row" th:if="${editMode==null or editMode==false}">
 		<label class="col-lg-3 col-form-label form-control-label">Confirm</label>
 		<div class="col-lg-9">
 			<input class="form-control" type="password" th:field="${userForm.confirmPassword}">
 			<div class="alert-danger" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">Name Error</div>
 		</div>
 	</div>
-	<div class="form-group row">
+	<div class="form-group row" >
 		<div class="col-lg-12 text-center">
-			<input type="reset" class="btn btn-secondary" value="Cancel">
-			<input type="submit" class="btn btn-primary" value="Save Changes">
+			<a class="btn btn-secondary" th:href = "@{'/cancelar'}">Cancelar</a>
+			<input type="submit" class="btn btn-primary" th:value="${editMode} ? 'Save User' : 'Create User'">
 		</div>
 	</div>
 	<div class="alert alert-danger text-center" th:if="${formErrorMessage}" th:text="${formErrorMessage}">Name Error</div>

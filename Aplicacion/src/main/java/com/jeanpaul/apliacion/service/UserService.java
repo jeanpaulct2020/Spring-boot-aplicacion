@@ -7,4 +7,6 @@ public interface UserService {
 	Iterable<User> findAllUsers();
 	
 	User createUser(User user) throws Exception;
+	User findUserById(Long id) throws Exception;
+	User updateUser(User user) throws Exception; 
 }
